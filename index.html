@@ -220,6 +220,11 @@
          */
         function draw() {
             // Clear the previous sculpture from the group
+            // and free its GPU resources (a new geometry and materials are built on every redraw)
+            if (mainGroup.children.length > 0) {
+                mainGroup.children[0].geometry.dispose();
+                new Set(mainGroup.children.map(mesh => mesh.material)).forEach(material => material.dispose());
+            }
             while(mainGroup.children.length > 0){ mainGroup.remove(mainGroup.children[0]); }
 
             // Get current values from all sliders
